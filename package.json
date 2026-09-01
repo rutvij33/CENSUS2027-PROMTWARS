@@ -1,7 +1,7 @@
 {
   "name": "census2027",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "India's First Digital Census 2027 Portal - Official Self-Enumeration & Secure Platform",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
