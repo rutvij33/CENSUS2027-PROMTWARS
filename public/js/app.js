@@ -3,15 +3,57 @@
  */
 var activeUserMobileNumber = "";
 
-async function executeDatabaseLookup() {
+function showLoginModal() {
+    document.getElementById("login-modal")?.classList.remove("hidden");
+    document.getElementById("lang-modal")?.classList.add("hidden");
+    document.getElementById("main-dashboard")?.classList.add("hidden");
+    document.getElementById("id-screen")?.classList.add("hidden");
+}
+
+function showLanguageModal() {
+    document.getElementById("login-modal")?.classList.add("hidden");
+    document.getElementById("lang-modal")?.classList.remove("hidden");
+    document.getElementById("main-dashboard")?.classList.add("hidden");
+    document.getElementById("id-screen")?.classList.add("hidden");
+}
+
+function showDashboard() {
+    document.getElementById("login-modal")?.classList.add("hidden");
+    document.getElementById("lang-modal")?.classList.add("hidden");
+    document.getElementById("main-dashboard")?.classList.remove("hidden");
+    document.getElementById("id-screen")?.classList.add("hidden");
+}
+
+function showIdScreen() {
+    document.getElementById("login-modal")?.classList.add("hidden");
+    document.getElementById("lang-modal")?.classList.add("hidden");
+    document.getElementById("main-dashboard")?.classList.add("hidden");
+    document.getElementById("id-screen")?.classList.remove("hidden");
+}
+
+async function executeDatabaseLookup(event) {
+    if (event && event.preventDefault) {
+        event.preventDefault();
+    }
+
     const inputField = document.getElementById("mobile-input");
+    const errorMsg = document.getElementById("login-error-msg");
     if (!inputField) return;
     
     const val = inputField.value.trim();
     if (val.length !== 10 || isNaN(val)) {
-        alert("Please enter a valid 10-digit mobile number.");
+        if (errorMsg) {
+            errorMsg.innerText = "Please enter a valid 10-digit mobile number.";
+            errorMsg.style.display = "block";
+        } else {
+            alert("Please enter a valid 10-digit mobile number.");
+        }
         inputField.focus();
         return;
+    }
+
+    if (errorMsg) {
+        errorMsg.style.display = "none";
     }
     activeUserMobileNumber = val;
 
@@ -21,20 +63,25 @@ async function executeDatabaseLookup() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ mobile: activeUserMobileNumber })
         });
+
+        if (!res.ok) {
+            console.warn("Auth lookup HTTP non-200. Proceeding to language modal.");
+            showLanguageModal();
+            return;
+        }
+
         const data = await res.json();
 
-        if (data.userExists) {
+        if (data.userExists && data.token) {
             document.getElementById("token-lbl").innerText = data.token;
-            document.getElementById("login-modal").classList.add("hidden");
-            document.getElementById("id-screen").classList.remove("hidden");
+            showIdScreen();
         } else {
-            document.getElementById("login-modal").classList.add("hidden");
-            document.getElementById("lang-modal").classList.remove("hidden");
+            showLanguageModal();
         }
     } catch(e) {
+        console.error("Lookup error:", e);
         // Fallback for offline mode
-        document.getElementById("login-modal").classList.add("hidden");
-        document.getElementById("lang-modal").classList.remove("hidden");
+        showLanguageModal();
     }
 }
 
@@ -54,11 +101,7 @@ async function commitCensusPayloadToServer() {
         document.getElementById("token-lbl").innerText = "H" + Math.floor(1000000000 + Math.random() * 9000000000);
     }
     
-    const mainDash = document.getElementById("main-dashboard");
-    const idScreen = document.getElementById("id-screen");
-    if (mainDash) mainDash.classList.add("hidden");
-    if (idScreen) idScreen.classList.remove("hidden");
-
+    showIdScreen();
     announceAccessibility("Census payload committed successfully. Digital Census Pass ready.");
 }
 
@@ -69,11 +112,16 @@ function printDigitalCensusPass() {
 
 /* On DOM Ready listeners */
 document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.getElementById("login-form");
+    if (loginForm) {
+        loginForm.addEventListener("submit", executeDatabaseLookup);
+    }
+
     const mobileInput = document.getElementById("mobile-input");
     if (mobileInput) {
         mobileInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
-                executeDatabaseLookup();
+                executeDatabaseLookup(e);
             }
         });
     }

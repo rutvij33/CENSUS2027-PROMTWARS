@@ -38,18 +38,23 @@
             <h1 id="login-heading" class="hero-title">India's First<br>Fully Digital Census</h1>
             <p class="subtitle">Census 2027 &amp; Digital Enumeration Registry</p>
 
-            <form onsubmit="event.preventDefault(); executeDatabaseLookup();">
+            <form id="login-form" onsubmit="executeDatabaseLookup(event);">
                 <div class="input-group">
                     <label for="mobile-input">Mobile Verification Key</label>
                     <input type="tel" id="mobile-input" placeholder="Enter 10-digit number" maxlength="10" autocomplete="tel" required aria-required="true" aria-describedby="mobile-help">
                     <span id="mobile-help" class="sr-only">Enter your 10 digit Indian mobile number to receive verification token</span>
                 </div>
-                <button type="submit" class="btn-primary" id="btn-login">Access Portal Registry</button>
+                <div id="login-error-msg" style="color: var(--red-500); font-size: 0.85rem; margin-bottom: 0.75rem; display: none;" role="alert"></div>
+                <button type="submit" class="btn-primary" id="btn-login" onclick="executeDatabaseLookup(event);">Access Portal Registry</button>
             </form>
         </section>
 
         <!-- STATE 2: VERNACULAR ENGINE MULTILINGUAL GRID (22 Official Languages) -->
         <section id="lang-modal" class="glass-card hidden" aria-labelledby="lang-heading" role="dialog">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <button type="button" class="btn-secondary" style="font-size: 0.85rem; padding: 0.4rem 0.75rem;" onclick="showLoginModal()">← Back to Mobile Key</button>
+                <span style="font-size: 0.8rem; color: var(--slate-400);">Step 2 of 3</span>
+            </div>
             <h1 id="lang-heading" class="hero-title">Select Regional Vernacular</h1>
             <p class="subtitle">Choose from the 22 Official Scheduled Languages of India for enumeration.</p>
 
