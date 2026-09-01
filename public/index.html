@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="India's First Digital Census 2027 Portal - Official Self-Enumeration, Multilingual Support, and Secure Verification Platform">
+    <meta name="theme-color" content="#0f172a">
+    <title>Census 2027 | India's First Digital Census Portal</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Live ARIA Announcer for Screen Readers (WCAG 2.1 AA) -->
+    <div id="a11y-announcer" class="sr-only" aria-live="polite"></div>
+
+    <!-- Hidden Google Translate Element -->
+    <div id="google_translate_element" class="sr-only"></div>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
+
+    <!-- Header Navigation Bar -->
+    <header role="banner" style="width: 100%; background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid var(--glass-border); padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; z-index: 100;">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div style="background: var(--saffron-500); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white;">🇮🇳</div>
+            <span style="font-weight: 700; letter-spacing: 0.05em; font-size: 1.1rem; color: white;">CENSUS 2027 DIGITAL PORTAL</span>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--slate-300); display: flex; gap: 1rem; align-items: center;">
+            <span role="status" aria-label="System status online">🛡️ Encrypted &amp; Compliant with Census Act 1948</span>
+        </div>
+    </header>
+
+    <main role="main" style="margin-top: 5rem; width: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+
+        <!-- STATE 1: SECURE AUTHENTICATION GATEWAY -->
+        <section id="login-modal" class="glass-card" aria-labelledby="login-heading">
+            <div class="top-accent"></div>
+            <h1 id="login-heading" class="hero-title">India's First<br>Fully Digital Census</h1>
+            <p class="subtitle">Census 2027 &amp; Digital Enumeration Registry</p>
+
+            <form onsubmit="event.preventDefault(); executeDatabaseLookup();">
+                <div class="input-group">
+                    <label for="mobile-input">Mobile Verification Key</label>
+                    <input type="tel" id="mobile-input" placeholder="Enter 10-digit number" maxlength="10" autocomplete="tel" required aria-required="true" aria-describedby="mobile-help">
+                    <span id="mobile-help" class="sr-only">Enter your 10 digit Indian mobile number to receive verification token</span>
+                </div>
+                <button type="submit" class="btn-primary" id="btn-login">Access Portal Registry</button>
+            </form>
+        </section>
+
+        <!-- STATE 2: VERNACULAR ENGINE MULTILINGUAL GRID (22 Official Languages) -->
+        <section id="lang-modal" class="glass-card hidden" aria-labelledby="lang-heading" role="dialog">
+            <h1 id="lang-heading" class="hero-title">Select Regional Vernacular</h1>
+            <p class="subtitle">Choose from the 22 Official Scheduled Languages of India for enumeration.</p>
+
+            <div class="grid-22">
+                <button class="lang-btn" onclick="selectPortalLanguage('en', 'English')"><span class="script">English</span>English</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('hi', 'हिन्दी')"><span class="script">हिन्दी</span>Hindi</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('mr', 'मराठी')"><span class="script">मराठी</span>Marathi</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('ta', 'தமிழ்')"><span class="script">தமிழ்</span>Tamil</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('te', 'తెలుగు')"><span class="script">తెలుగు</span>Telugu</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('bn', 'বাংলা')"><span class="script">বাংলা</span>Bengali</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('gu', 'ગુજરાતી')"><span class="script">ગુજરાતી</span>Gujarati</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('kn', 'ಕನ್ನಡ')"><span class="script">ಕನ್ನಡ</span>Kannada</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('ml', 'മലയാളം')"><span class="script">മലയാളം</span>Malayalam</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('or', 'ଓଡ଼ିଆ')"><span class="script">ଓଡ଼ିଆ</span>Odia</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('pa', 'ਪੰਜਾਬੀ')"><span class="script">ਪੰਜਾਬੀ</span>Punjabi</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('ur', 'اردو')"><span class="script">اردو</span>Urdu</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('as', 'অসমীয়া')"><span class="script">অসমীয়া</span>Assamese</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('mai', 'मैथिली')"><span class="script">मैथिली</span>Maithili</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('sat', 'সাঁওতালি')"><span class="script">সাঁওতালি</span>Santali</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('ks', 'कॉशुर')"><span class="script">कॉशुर</span>Kashmiri</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('ne', 'नेपाली')"><span class="script">नेपाली</span>Nepali</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('kok', 'कोंकणी')"><span class="script">कोंकणी</span>Konkani</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('doi', 'डोगरी')"><span class="script">डोगरी</span>Dogri</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('mni', 'মৈতৈলোন্')"><span class="script">মৈতৈলোন্</span>Manipuri</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('brx', 'बड़ो')"><span class="script">बड़ो</span>Bodo</button>
+                <button class="lang-btn" onclick="selectPortalLanguage('sa', 'संस्कृतम्')"><span class="script">संस्कृतम्</span>Sanskrit</button>
+            </div>
+        </section>
+
+        <!-- STATE 3: CORE MANAGEMENT SYSTEM ENVIRONMENT DASHBOARD -->
+        <section id="main-dashboard" class="hidden" aria-label="Census 2027 Dashboard">
+            <div class="dashboard-header">
+                <div class="marquee-title">
+                    CENSUS 2027 MANAGEMENT DASHBOARD 
+                    <span id="current-lang-badge" class="lang-tag">ENG</span>
+                </div>
+                <div class="status-badge" role="status">
+                    <span style="color: var(--green-500);">●</span> Local Persistence Active &amp; Sync Ready
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="column-left">
+                    <!-- Block A: Phase Directives & Regional Timelines -->
+                    <div class="panel">
+                        <h2>📍 Block A: Phase Directives &amp; Regional Timelines</h2>
+                        <div class="input-group">
+                            <label for="phase1-timeline">Phase I: Houselisting &amp; Housing Infrastructure</label>
+                            <select id="phase1-timeline">
+                                <option value="apr-sep">Target Window: April - September 2026</option>
+                                <option value="ext">Extended Timeline Review Phase</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="phase2-timeline">Phase II: Population Demographics &amp; Household Survey</label>
+                            <select id="phase2-timeline">
+                                <option value="feb-2027">Target Window: February 9 - 28, 2027</option>
+                                <option value="mar-2027">Revision Phase: March 1 - 5, 2027</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Block B: Guided Interactive Self-Enumeration Wizard -->
+                    <div class="panel">
+                        <h2>📑 Block B: Guided Interactive Self-Enumeration Wizard</h2>
+                        
+                        <!-- Step 1: Biometric Photo Capture -->
+                        <div class="wizard-step active">
+                            <strong>Step 1: Vision ID Biometric Photo Scan</strong>
+                            <div class="camera-box" id="camera-box">
+                                <div class="cam-placeholder" id="cam-placeholder">📷 Click "Open Camera" to capture facial vision ID</div>
+                                <video id="cam-video" autoplay playsinline style="display:none;"></video>
+                                <img id="cam-snapshot" style="display:none;" alt="Captured Facial Vision Photo">
+                            </div>
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.75rem;">
+                                <button type="button" class="btn-secondary" id="btn-cam-open" onclick="openCamera()">📷 Open Camera</button>
+                                <button type="button" class="btn-primary" id="btn-cam-capture" onclick="capturePhoto()" style="display:none;">✅ Capture Photo</button>
+                                <button type="button" class="btn-secondary" id="btn-cam-retake" onclick="retakePhoto()" style="display:none;">🔄 Retake</button>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="ins-name">Head of Household Name</label>
+                                <input type="text" id="ins-name" placeholder="Auto-filled after photo capture or type manually">
+                            </div>
+                            <div class="input-group">
+                                <label for="ins-age">Age / Demographics</label>
+                                <input type="text" id="ins-age" placeholder="Age in years">
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Live Voice Intake Dictation -->
+                        <div class="wizard-step active">
+                            <strong>Step 2: Voice Intake — Live Multilingual Dictation</strong>
+                            <button type="button" class="btn-mic" id="btn-voice" onclick="toggleVoiceRecording()">🎤 Start Voice Intake</button>
+                            <p id="voice-status" style="font-size:0.85rem; color:var(--slate-300); margin:0.4rem 0;">Tap to speak. Real-time voice will be transcribed into text.</p>
+                            <div class="input-group">
+                                <label for="ins-water">Household Water &amp; Amenity Particulars</label>
+                                <input type="text" id="ins-water" placeholder="Transcript will appear here live...">
+                            </div>
+                        </div>
+
+                        <button type="button" class="btn-submit" onclick="commitCensusPayloadToServer()">✅ Commit Final Census Payload</button>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="column-right">
+                    <!-- Block C: Privacy & Misinformation Sandbox -->
+                    <div class="panel">
+                        <h2>🛡️ Block C: Privacy &amp; Misinformation Sandbox</h2>
+                        <div style="background: rgba(34, 197, 94, 0.12); color: var(--green-500); border: 1px solid rgba(34, 197, 94, 0.25); padding: 0.85rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.85rem;">
+                            🔒 Strict compliance active under Census Act, 1948. End-to-end data encryption and privacy protection enforced.
+                        </div>
+                        <div class="input-group">
+                            <label for="claim-input">RAG Ledger Claim Audit</label>
+                            <textarea id="claim-input" placeholder="Paste any suspicious claim, notification, or link to verify authenticity..." rows="3"></textarea>
+                        </div>
+                        <button type="button" class="btn-secondary" style="width: 100%;" onclick="sendClaimToBackendAudit()">Audit RAG Verification Ledger</button>
+                        <div id="fact-box-out" class="hidden" style="margin-top: 1rem; padding: 1rem; border-radius: var(--radius-sm); font-size: 0.9rem;" role="alert"></div>
+                    </div>
+
+                    <!-- Block D: Dynamic Parameter Graphics -->
+                    <div class="panel">
+                        <h2>📊 Block D: Dynamic Parameter Graphics</h2>
+                        <div class="input-group">
+                            <label for="chart-query">Query Demographics Vector</label>
+                            <input type="text" id="chart-query" placeholder="Type parameter (e.g., 'Literacy', 'Gender', 'Digital')...">
+                        </div>
+                        
+                        <div class="chart-container" role="img" aria-label="Bar chart comparing Rural, Urban, and Tribal demographics">
+                            <div class="bar" id="bar-rural" style="height: 40%; background: var(--blue-500);">Rural<br>40%</div>
+                            <div class="bar" id="bar-urban" style="height: 75%; background: var(--saffron-500);">Urban<br>75%</div>
+                            <div class="bar" id="bar-tribal" style="height: 25%; background: var(--green-500);">Tribal<br>25%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATE 4: DIGITAL CENSUS ID PASS POPUP -->
+        <section id="id-screen" class="glass-card hidden" aria-labelledby="id-heading">
+            <div style="width: 64px; height: 64px; background: rgba(34, 197, 94, 0.15); color: var(--green-500); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem;">✓</div>
+            <h2 id="id-heading">Digital Enumeration Lock Certified</h2>
+            <p class="subtitle">Your official Census 2027 serial reference key has been generated and saved.</p>
+
+            <div class="census-card">
+                <div style="font-size: 0.8rem; color: var(--saffron-500); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;">Government of India • Census 2027</div>
+                <div id="token-lbl" class="token-display">H5829104829</div>
+                <div style="font-size: 0.85rem; color: var(--slate-300); display: flex; justify-content: space-between;">
+                    <span>Status: VERIFIED ENUMERATED</span>
+                    <span>Format: DIGITAL PASS</span>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+                <button type="button" class="btn-secondary" style="flex: 1;" onclick="printDigitalCensusPass()">🖨️ Print Census Pass</button>
+                <button type="button" class="btn-primary" style="flex: 1;" onclick="location.reload()">Return to Registry</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Application Script Modules -->
+    <script src="/js/translate.js"></script>
+    <script src="/js/wizard.js"></script>
+    <script src="/js/audit.js"></script>
+    <script src="/js/charts.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
