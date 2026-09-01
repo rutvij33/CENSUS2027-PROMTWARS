@@ -274,7 +274,7 @@
             activeUserMobileNumber = val;
 
             try {
-                var res = await fetch('http://localhost:3000/api/auth/lookup', {
+                var res = await fetch('/api/auth/lookup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ mobile: activeUserMobileNumber })
@@ -437,7 +437,7 @@
             resultBox.className = ""; // clear previous alert styles safely
 
             try {
-                var res = await fetch('http://localhost:3000/api/security/audit-claim', {
+                var res = await fetch('/api/security/audit-claim', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ text: textInput })
@@ -459,7 +459,7 @@
         // 5. Hook this to the green final submit button inside your guided wizard
         async function commitCensusPayloadToServer() {
             try {
-                var res = await fetch('http://localhost:3000/api/census/commit', {
+                var res = await fetch('/api/census/commit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ mobile: activeUserMobileNumber })

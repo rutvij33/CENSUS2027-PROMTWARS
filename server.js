@@ -3,11 +3,18 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname)));
+
 let databaseCache = {};
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.post('/api/auth/lookup', (req, res) => {
     const { mobile } = req.body;
     if (databaseCache[mobile]) {
@@ -15,6 +22,7 @@ app.post('/api/auth/lookup', (req, res) => {
     }
     return res.json({ userExists: false });
 });
+
 app.post('/api/security/audit-claim', (req, res) => {
     const { text } = req.body;
     const clean = (text || '').toLowerCase();
@@ -23,12 +31,19 @@ app.post('/api/security/audit-claim', (req, res) => {
     }
     return res.json({ status: 'VERIFIED_SAFE', message: '🛡️ SECURE PORTAL CLEARANCE: Content correlates cleanly with standard public circular guidelines.' });
 });
+
 app.post('/api/census/commit', (req, res) => {
     const { mobile } = req.body;
     const token = "H" + Math.floor(1000000000 + Math.random() * 9000000000);
     databaseCache[mobile] = token;
     return res.json({ token: token });
 });
-app.listen(PORT, () => {
-    console.log('\n🚀 Production backend server executing successfully on url: http://localhost:' + PORT);
-});
+
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log('\n🚀 Production backend server executing successfully on url: http://localhost:' + PORT);
+    });
+}
+
+module.exports = app;
+
