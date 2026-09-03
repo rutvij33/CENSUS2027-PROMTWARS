@@ -12,26 +12,37 @@ function googleTranslateElementInit() {
 }
 
 function selectPortalLanguage(langCode, langName) {
+    // 1. Advance UI screen state immediately
+    if (typeof showDashboard === 'function') {
+        showDashboard();
+    } else {
+        document.getElementById("login-modal")?.classList.add("hidden");
+        document.getElementById("lang-modal")?.classList.add("hidden");
+        document.getElementById("main-dashboard")?.classList.remove("hidden");
+        document.getElementById("id-screen")?.classList.add("hidden");
+    }
+
+    // 2. Update language badge tag
     const badge = document.getElementById("current-lang-badge");
     if (badge) {
         badge.innerText = langName;
     }
 
-    // Trigger Google Translate select element if initialized
-    const selectElement = document.querySelector('.goog-te-combo');
-    if (selectElement) {
-        selectElement.value = langCode;
-        selectElement.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+    // 3. Attempt Google Translate trigger safely
+    try {
+        const selectElement = document.querySelector('.goog-te-combo');
+        if (selectElement) {
+            selectElement.value = langCode;
+            selectElement.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+        }
+    } catch (err) {
+        console.warn("Translation dispatch skipped:", err);
     }
 
-    // Advance UI state to dashboard
-    const langModal = document.getElementById("lang-modal");
-    const mainDashboard = document.getElementById("main-dashboard");
-    if (langModal) langModal.classList.add("hidden");
-    if (mainDashboard) mainDashboard.classList.remove("hidden");
-
-    // Announce to screen reader for WCAG accessibility
-    announceAccessibility(`Language updated to ${langName}`);
+    // 4. Accessibility announcement
+    if (typeof announceAccessibility === 'function') {
+        announceAccessibility(`Language updated to ${langName}`);
+    }
 }
 
 function announceAccessibility(text) {
