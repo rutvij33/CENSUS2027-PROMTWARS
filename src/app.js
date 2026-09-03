@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 // 5. Serve Static Assets with Cache-Control
 const publicDir = path.join(__dirname, '..', 'public');
 app.use(express.static(publicDir, {
-    maxAge: '1d',
+    maxAge: 0,
     etag: true
 }));
 
